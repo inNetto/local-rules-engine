@@ -1,10 +1,12 @@
 import express from 'express';
+import cors from 'cors';
 import { RulesEngine } from './index.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -20,31 +22,33 @@ app.use((req, res, next) => {
 // Main endpoint
 app.post('/evaluate', async (req, res) => {
   try {
-    const { input } = req.body;
+    const { input, text } = req.body;
+    const textToAnalyze = text || input; // Accept both 'text' and 'input' for compatibility
     
     // Validation
-    if (!input || typeof input !== 'string') {
+    if (!textToAnalyze || typeof textToAnalyze !== 'string') {
       return res.status(400).json({
-        error: '"input" field is required and must be a string'
+        error: '"text" or "input" field is required and must be a string'
       });
     }
 
-    if (input.trim().length === 0) {
+    if (textToAnalyze.trim().length === 0) {
       return res.status(400).json({
         error: 'Input cannot be empty'
       });
     }
 
-    console.log(`📝 Processing input: "${input}"`);
+    console.log(`📝 Processing input: "${textToAnalyze}"`);
     
     // Apply rules
-    const result = await rulesEngine.applyRules(input);
+    const result = await rulesEngine.applyRules(textToAnalyze);
     
     // Response
     res.json({
       success: true,
-      input: input,
-      result: result,
+      input: textToAnalyze,
+      analysis: result,
+      result: result, // Keep both for compatibility
       timestamp: new Date().toISOString()
     });
 
@@ -80,7 +84,7 @@ app.get('/', (req, res) => {
     },
     example: {
       url: 'POST /evaluate',
-      body: { input: 'John has email john@test.com' }
+      body: { text: 'John has email john@test.com and the number 1500' }
     }
   });
 });

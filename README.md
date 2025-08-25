@@ -30,24 +30,89 @@ ollama list
 
 ## 📝 Usage
 
-### CLI Mode
+### Quick Start (All Services)
+```bash
+# Install all dependencies
+npm run setup-frontend
+
+# Start both backend and frontend
+npm run start-all
+```
+This will start both the backend (port 3001) and frontend (port 5173).
+
+### Option 1: Web Interface (Recommended)
+```bash
+# Start backend server
+PORT=3001 npm run server
+
+# In another terminal, start frontend
+cd frontend
+npm run dev
+```
+Then open http://localhost:5173 in your browser for a beautiful web interface.
+
+### Option 2: CLI Mode
 ```bash
 npm start
 ```
 
-### REST Server
+### Option 3: REST API Only
 ```bash
 # Development
-npm run dev
+PORT=3001 npm run dev
 
 # Production
-npm run server
+PORT=3001 npm run server
 ```
+
+## 🖥️ Frontend Interface
+
+The project includes a beautiful Vue 3 + Tailwind CSS frontend located in the `frontend/` directory.
+
+### Features:
+- 🎨 Modern, responsive design with Tailwind CSS v3
+- ⚡ Real-time text analysis
+- 📊 Server status monitoring
+- 🔄 Clear error handling and loading states
+- 📋 Display of active business rules
+- 🌐 CORS-enabled communication with backend
+
+### Frontend Setup:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend will be available at http://localhost:5173
 
 ## 🌐 API Endpoints
 
 ### POST /evaluate
 Evaluates input using defined rules.
+
+**Request:**
+```json
+{
+  "input": "Text to analyze"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "input": "Text to analyze",
+  "result": "Analysis result from AI",
+  "timestamp": "2025-08-25T15:17:31.598Z"
+}
+```
+
+### GET /health
+Server health check.
+
+### GET /
+API documentation and information.
 
 **Request:**
 ```json
