@@ -1,0 +1,23 @@
+{
+  "name": "local-rules-engine",
+  "version": "1.0.0",
+  "description": "Local rules engine system using Ollama AI for text analysis and business rule validation",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "server": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "install-deps": "npm install"
+  },
+  "dependencies": {
+    "ollama": "^0.5.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "keywords": ["ollama", "rules", "ai", "nodejs"],
+  "author": "",
+  "license": "MIT"
+}
